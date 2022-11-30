@@ -8,11 +8,6 @@ import os
 
 app = typer.Typer()
 
-@app.command()
-def test_connect(name: str):
-    print(f"Hello {name}")    
-
-
 # Angular init command controller
 # --------------------------------*
 # Init angular base auth app client
