@@ -34,12 +34,15 @@ def init_angular():
     ) as progress:
         progress.add_task(description="Processing to clone the template script...", total=None)
         time.sleep(5)
-        if os.path.isdir('/tmp/angular-socle'):
-            typer.echo('\n\nThe folder /tmp/angular-socle already exists\n')
-            os.system('rm -rf /tmp/angular-socle\n')
-            time.sleep(5)
-            typer.echo('\nThe folder /tmp/angular-socle has been deleted\n')
-
+        try:
+            if os.path.isdir('/tmp/angular-socle'):
+                typer.echo('\n\nThe folder /tmp/angular-socle already exists\n')
+                os.system('rm -rf /tmp/angular-socle\n')
+                time.sleep(5)
+                typer.echo('\nThe folder /tmp/angular-socle has been deleted\n')
+        except:
+            print('Error while deleting the folder /tmp/angular-socle')
+            typer.Typer(pretty_exceptions_short=False)
         git.Git("/tmp").clone("git@github.com:Liam-Esteffe/angular-socle.git")
     print("Done!")
     
@@ -54,29 +57,40 @@ def init_angular():
             TextColumn("[progress.description]{task.description}"),
             transient=True,
         ) as progress:
-            progress.add_task(description="Processing to install Macos depiencies...", total=None)
-            time.sleep(5)
-            os.system('brew install jq')
-    
+            try:
+                progress.add_task(description="Processing to install Macos depiencies...", total=None)
+                time.sleep(5)
+                os.system('brew install jq')
+            except:
+                print('Error while installing jq')
+                typer.Typer(pretty_exceptions_short=False)
     else:
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
             transient=True,
         ) as progress:
-            progress.add_task(description="Processing to install Linux depiencies...", total=None)
-            time.sleep(5)
-            os.system('sudo apt-get install jq')    
-    
+            try:
+                progress.add_task(description="Processing to install Linux depiencies...", total=None)
+                time.sleep(5)
+                os.system('sudo apt-get install jq')    
+            except:
+                print('Error while installing jq')
+                typer.Typer(pretty_exceptions_short=False)
+   
     project_name = Prompt.ask("Enter your project name", default='angular-template')
     
     project_dest = Prompt.ask("Enter your project destination", default='/tmp')
     
-    os.system('cp -r /tmp/angular-socle {project_dest}' + project_name)
-    
-    os.system('cd {project_dest}' + project_name)
-    
-    os.system('npm install')
+    try:
+        os.system('cp -r /tmp/angular-socle {project_dest}' + project_name)
+        
+        os.system('cd {project_dest}' + project_name)
+        
+        os.system('npm install')
+    except:
+        print('Error while installing the angular template')
+        typer.Typer(pretty_exceptions_short=False)
     
     server_choice = Prompt.ask("Do you want to start the server ?", choices=["Yes", "No"], default="Yes")
     
@@ -105,54 +119,59 @@ def init_nest(project_name: str, options: bool):
         transient=True,
     ) as progress:
         progress.add_task(description="Processing to install NestJS depiencies...", total=None)
-        time.sleep(5)
-        os.system('npm install -g @nestjs/cli')
-        os.system('npm install')
-        os.system('npm install -g @angular/cli')
-        os.system('npm install')
-        os.system('npm install --save-dev @angular-devkit/build-angular')
-        os.system('npm install --save-dev @angular-devkit/build-ng-packagr')
-        os.system('npm install --save-dev @angular-devkit/build-webpack')
-        os.system('npm install --save-dev @angular-devkit/core')
-        os.system('npm install --save-dev @angular-devkit/schematics')
-        os.system('npm install --save-dev @angular/cli')
-        os.system('npm install --save-dev @angular/compiler-cli')
-        os.system('npm install --save-dev @angular/language-service')
-        os.system('npm install --save-dev @ngtools/webpack')
-        os.system('npm install --save-dev @schematics/angular')
-        os.system('npm install --save-dev @schematics/update')
-        os.system('npm install --save-dev @types/jasmine')
-        os.system('npm install --save-dev @types/jasminewd2')
-        os.system('npm install --save-dev @types/node')
-        os.system('npm install --save-dev codelyzer')
-        os.system('npm install --save-dev core-js')
-        os.system('npm install --save-dev jasmine-core')
-        os.system('npm install --save-dev jasmine-spec-reporter')
-        os.system('npm install --save-dev karma')
-        os.system('npm install --save-dev karma-chrome-launcher')
-        os.system('npm install --save-dev karma-coverage-istanbul-reporter')
-        os.system('npm install --save-dev karma-jasmine')
-        os.system('npm install --save-dev karma-jasmine-html-reporter')
-        os.system('npm install --save-dev ng-packagr')
-        os.system('npm install --save-dev protractor')
+        try:
+            time.sleep(5)
+            os.system('npm install -g @nestjs/cli')
+            os.system('npm install')
+            os.system('npm install -g @angular/cli')
+            os.system('npm install')
+            os.system('npm install --save-dev @angular-devkit/build-angular')
+            os.system('npm install --save-dev @angular-devkit/build-ng-packagr')
+            os.system('npm install --save-dev @angular-devkit/build-webpack')
+            os.system('npm install --save-dev @angular-devkit/core')
+            os.system('npm install --save-dev @angular-devkit/schematics')
+            os.system('npm install --save-dev @angular/cli')
+            os.system('npm install --save-dev @angular/compiler-cli')
+            os.system('npm install --save-dev @angular/language-service')
+            os.system('npm install --save-dev @ngtools/webpack')
+            os.system('npm install --save-dev @schematics/angular')
+            os.system('npm install --save-dev @schematics/update')
+            os.system('npm install --save-dev @types/jasmine')
+            os.system('npm install --save-dev @types/jasminewd2')
+            os.system('npm install --save-dev @types/node')
+            os.system('npm install --save-dev codelyzer')
+            os.system('npm install --save-dev core-js')
+            os.system('npm install --save-dev jasmine-core')
+            os.system('npm install --save-dev jasmine-spec-reporter')
+            os.system('npm install --save-dev karma')
+            os.system('npm install --save-dev karma-chrome-launcher')
+            os.system('npm install --save-dev karma-coverage-istanbul-reporter')
+            os.system('npm install --save-dev karma-jasmine')
+            os.system('npm install --save-dev karma-jasmine-html-reporter')
+            os.system('npm install --save-dev ng-packagr')
+            os.system('npm install --save-dev protractor')
+            
+            
+            os.system('ng add @nestjs/schematics')
+
+            os.system('nest g module user')
+            os.system('nest g service user')
+            os.system('nest g controller user')
+
+            os.system('nest g module auth')
+            os.system('nest g service auth')
+            os.system('nest g controller auth')
+
+            os.system('nest g module admin')
+            os.system('nest g service admin')
+            os.system('nest g controller admin')
+
+            os.system('nest g module database')
         
-        
-        os.system('ng add @nestjs/schematics')
-
-        os.system('nest g module user')
-        os.system('nest g service user')
-        os.system('nest g controller user')
-
-        os.system('nest g module auth')
-        os.system('nest g service auth')
-        os.system('nest g controller auth')
-
-        os.system('nest g module admin')
-        os.system('nest g service admin')
-        os.system('nest g controller admin')
-
-        os.system('nest g module database')
-        
+        except:
+            print('Error while installing NestJS')
+            typer.Typer(pretty_exceptions_short=False)
+            
         ## add mysl connection in app.module.ts
         
 
@@ -276,15 +295,55 @@ def init_mysqldb(sql_user: str, sql_password: str, sql_host: str, sql_port: str,
     os.system('mysql -u {sql_user} -p{sql_password} -h {sql_host} -P {sql_port} -e "create database {sql_db}"')
     os.system('mysql -u {sql_user} -p{sql_password} -h {sql_host} -P {sql_port} {sql_db} < {sql_file}')
 
-
+# Dockerfile builders
+# --------------------------------*
+# Build dockerfile for base auth app
 
 @app.command()
-def goodbye(name: str, formal: bool = False):
-    if formal:
-        print(f"Goodbye Ms. {name}. Have a good day.")
-    else:
-        print(f"Bye {name}!")
+def dockerfile():
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        transient=True,
+    ) as progress:
+        progress.add_task(description="Processing to writing Dockerfile and nginx configuration...", total=None)
+        time.sleep(5)
+        try:
+            dockerfile = open('Dockerfile', 'w')
+            dockerfile.write("FROM node:10.16.0-alpine as build\n")
+            dockerfile.write("WORKDIR /app\n")
+            dockerfile.write("COPY package.json package-lock.json .\n")
+            dockerfile.write("RUN npm install\n")
+            dockerfile.write("COPY . .\n")
+            dockerfile.write("RUN npm run build --prod\n")
+            dockerfile.write("FROM nginx:1.16.0-alpine\n")
+            dockerfile.write("COPY --from=build /app/dist/authapp /usr/share/nginx/html\n")
+            dockerfile.write("COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf\n")
+            dockerfile.write("EXPOSE 80\n")
+            dockerfile.write("CMD [\"nginx\", \"-g\", \"daemon off;\"]\n")
+            dockerfile.close()
 
+            nginxfile = open('nginx-custom.conf', 'w')
+            nginxfile.write("server {\n")
+            nginxfile.write("listen 80;\n")
+            nginxfile.write("server_name  localhost;\n")
+            nginxfile.write("root /usr/share/nginx/html;\n")
+            nginxfile.write("index index.html index.htm;\n")
+            nginxfile.write("location / {\n")
+            nginxfile.write("try_files $uri $uri/ /index.html;\n")
+            nginxfile.write("}\n")
+            nginxfile.write("location /api {\n")
+            nginxfile.write("proxy_pass http://localhost:8080/api;\n")
+            nginxfile.write("proxy_set_header Host $host;\n")
+            nginxfile.write("proxy_set_header X-Real-IP $remote_addr;\n")
+        except:
+            typer.echo("Error creating Dockerfile")
+            typer.Typer.exit()
+    print('-----------Dockerfile---------------\n\n')
+    print(dockerfile)
+    print('-----------Nginxfile---------------\n\n')
+    print(nginxfile)
+    print('--------------------------')
 
 if __name__ == "__main__":
     app()
