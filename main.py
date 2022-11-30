@@ -13,6 +13,10 @@ def test_connect(name: str):
     print(f"Hello {name}")    
 
 
+# Angular init command controller
+# --------------------------------*
+# Init angular base auth app client
+
 @app.command()
 def init_angular():
     typer.echo('    ___                      __              ______                     __      __     ')
@@ -80,9 +84,14 @@ def init_angular():
     
     if nest_or_django == "NestJS":
         init_nest(project_name, True)
+    elif nest_or_django == "Django":
+        init_django(project_name, True)
 
 
-    
+# NestJS init command controller
+# --------------------------------*
+# Init NestJS base auth app server
+
 @app.command()
 def init_nest(project_name: str, options: bool):
     typer.echo(' _   _           _     ___ _____   _____                    _       _       ')
@@ -143,13 +152,55 @@ def init_nest(project_name: str, options: bool):
         os.system('nest g controller admin')
 
         os.system('nest g module database')
+        
+        ## add mysl connection in app.module.ts
+        
 
 
+# Django init command controller
+# --------------------------------*
+# Init Django base auth app server
 @app.command()
 def init_django(project_name: str, options: bool):
-    print(f"Creating django project {project_name}")
-    print(f"Options: {options}")
+    typer.echo('  _____  _                         ')
+    typer.echo(' |  __ \(_)                        ')
+    typer.echo(' | |  | |_  __ _ _ __   __ _  ___  ')
+    typer.echo(' | |  | | |/ _` |  _ \ / _ |/  _ \ ')
+    typer.echo(' | |__| | | (_| | | | | (_| | (_) |')
+    typer.echo(' |_____/| |\__,_|_| |_|\__, |\___/ ')
+    typer.echo('       _/ |             __/ |      ')
+    typer.echo('      |__/             |___/       ')
+                                         
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        transient=True,
+    ) as progress:
+        progress.add_task(description="Processing to install Django depiencies...", total=None)
+        time.sleep(5)
+        os.system('pip3 install django')
+        os.system('pip3 install djangorestframework')
+        os.system('pip3 install django-cors-headers')
+        os.system('pip3 install django-extensions')
+        os.system('pip3 install django-rest-auth')
+        os.system('pip3 install django-allauth')
+        os.system('pip3 install django-rest-auth[with_social]')
+        os.system('pip3 install django-rest-auth[with_social]')
 
+        os.system('django-admin startproject {project_name}')
+        os.system('cd {project_name}')
+        os.system('python3 manage.py startapp user')
+        os.system('python3 manage.py startapp auth')
+        os.system('python3 manage.py startapp admin')
+        os.system('python3 manage.py startapp database')
+        os.system('python3 manage.py startapp social')
+        
+        ## add mysl connection in app.module.ts
+
+
+# Firebase deployer
+# --------------------------------*
+# Deploy firebase app
 
 @app.command()
 def firebase_deploy(project_name: str, options):
@@ -165,6 +216,11 @@ def firebase_deploy(project_name: str, options):
     os.system('npm install')
     os.system('ng build --prod')
     os.system('firebase deploy')
+
+
+# MYSQL init command controller
+# --------------------------------*
+# Init MYSQL base auth app database
 
 @app.command()
 def init_mysqldb(sql_user: str, sql_password: str, sql_host: str, sql_port: str, sql_db: str, sql_file=None):
